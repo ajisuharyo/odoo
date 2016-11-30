@@ -1,0 +1,81 @@
+<openerp>
+  <data>
+
+    <!-- Index Page -->
+    <record model="ir.ui.view" id="shipping.list"> <!-- ini masih misteri, secara logic ini harus nya nama class namun ketika di isi prepare_product malah error -->
+      <field name="name">Penyiapan Jalur Daftar</field> <!-- ini cuman penamaan saja -->
+      <field name="model">shipping.prepare_products</field>
+      <field name="arch" type="xml">
+        <tree string="Index Penyiapan Jalur"> <!-- Key Script -->
+          <field name="number"/>
+          <field name="title"/>
+          <field name="transaction_date"/>
+          <field name="user_id"/>
+          <field name="country_id"/>
+          <field name="lane_id"/>
+          <field name="html"/>
+          <field name="rate"/>
+          <field name="status"/>
+          <field name="is_active"/>
+          <field name="reference"/>
+          <field name="description"/>
+          <field name="subtotal"/>
+        </tree>
+      </field>
+    </record>
+
+    <!-- Basic & Empty Data -->
+    <record model="ir.actions.act_window" id="shipping.action_window">
+      <field name="name">Penyiapan Jalur 3</field> <!-- walaupun judul nya empty data, tapi baris ini akan menjadi info pada breadcumb, cuman penamaan saja -->
+      <field name="res_model">shipping.prepare_products</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">tree,form</field> <!-- tidak boleh di kasih spasi(harus rapat), urutan pertama akan menjadi default view -->
+      <field name="help" type='html'> <!-- Key Script -->
+        <p class='oe_view_nocontent_create'>
+          cekson dulu broh,,,
+        </p>
+      </field>
+    </record>
+
+    <!-- Form & Show -->
+    <record model="ir.ui.view" id="shipping.form">
+      <field name="name">Penyiapan Jalur Form</field> <!-- ini cuman penamaan saja -->
+      <field name="model">shipping.prepare_products</field>
+      <field eval="10" name="priority" />
+      <field name="arch" type="xml">
+        <form string="Form Penyiapan Jalur"> <!-- Key Script -->
+          <sheet>
+            <notebook>
+              <page string="Atur Penyiapan Jalur"> <!-- Info ini akan muncul pada tab bagian show detail -->
+                <group>
+                  <field name="number"/>
+                  <field name="title"/>
+                  <field name="user_id"/>
+                  <field name="country_id"/>
+                  <field name="rate"/>
+                  <field name="lane_id"/>
+                  <field name="subtotal"/>
+                  <field name="status"/>
+                  <field name="is_active"/>
+                  <field name="reference"/>
+                  <field name="transaction_date"/>
+                  <field name="description"/>
+                  <field name="html"/>
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Top menu --> <!-- ini harus di bawah, klo g y g kebaca fungsi nya :) -->
+    <menuitem name="Penyiapan Jalur" id="shipping.menu_root"/>
+
+    <!-- Sidebar Menu -->
+    <menuitem name="Dashboard" id="shipping.menu_1" parent="shipping.menu_root" action="shipping.action_window" sequence="0"/> <!-- sequence = urutan menu muncul, defaultnya menumpuk menu yang sudah ada, baiknya di beri nilai agar urutan menu fix, sequence 0 akan menjadi default menu yg muncul ketika klik dari top menu -->
+
+    <menuitem name="Pembelian" id="shipping.menu_2" parent="shipping.menu_root" sequence="2"/>
+    <menuitem name="Penyiapan Jalur" id="shipping.index" parent="shipping.menu_2" action="shipping.action_window" sequence="0"/>
+  </data>
+</openerp>

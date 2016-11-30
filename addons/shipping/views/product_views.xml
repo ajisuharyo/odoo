@@ -1,0 +1,145 @@
+<openerp>
+  <data>
+
+    <!-- Index Page -->
+    <record model="ir.ui.view" id="product.list">
+      <field name="name">Penyiapan Jalur Daftar</field> <!-- ini cuman penamaan saja -->
+      <field name="model">shipping.products</field>
+      <field name="arch" type="xml">
+        <tree string="Index Penyiapan Jalur"> <!-- Key Script -->
+          <field name="name" />
+          <field name="code" />
+          <field name="is_not_ppn" />
+          <field name="last_purchase_price" />
+          <field name="default_discount" />
+          <field name="last_purchase_price" />
+          <field name="point" />
+          <field name="type_product" />
+          <field name="status" />
+          <field name="description" />
+        </tree>
+      </field>
+    </record>
+
+    <!-- Basic & Empty Data -->
+    <record model="ir.actions.act_window" id="product.action_window">
+      <field name="name">Master Produk 18</field> <!-- walaupun judul nya empty data, tapi baris ini akan menjadi info pada breadcumb, cuman penamaan saja -->
+      <field name="res_model">shipping.products</field>
+      <field name="view_type">form</field>
+      <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field> <!-- tidak boleh di kasih spasi(harus rapat), urutan pertama akan menjadi default view -->
+      <field name="help" type='html'> <!-- Key Script -->
+        <p class='oe_view_nocontent_create'>
+          ayo mari cekson dulu....
+        </p>
+      </field>
+    </record>
+
+    <!-- Form & Show -->
+    <record model="ir.ui.view" id="product.form">
+      <field name="name">Penyiapan Jalur Form</field> <!-- ini cuman penamaan saja -->
+      <field name="model">shipping.products</field>
+      <field eval="10" name="priority" />
+      <field name="arch" type="xml">
+        <form string="Form Penyiapan Jalur"> <!-- Key Script -->
+          <sheet>
+            <notebook>
+              <page string="Atur Penyiapan Jalur"> <!-- Info ini akan muncul pada tab bagian show detail -->
+                <group>
+                  <field name="name" />
+                    <field name="code" />
+                    <field name="is_not_ppn" />
+                    <field name="last_purchase_price" />
+                    <field name="default_discount" />
+                    <field name="last_purchase_price" />
+                    <field name="point" />
+                    <field name="type_product" />
+                    <field name="status" />
+                    <field name="description" />
+                </group>
+              </page>
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <!-- Kanban View -->
+    <!-- <record model="ir.ui.view" id="resource_kanban_view">
+      <field name="name">any name of ur  model</field>
+      <field name="model">shipping.products</field>
+      <field name="type">kanban</field>
+      <field name="arch" type="xml">
+          <kanban>
+              <templates>
+                  <t t-name="kanban-box">
+                      <div class="oe_resource_vignette">
+                          <div class="oe_resource_image">
+                              <a type="edit"><img t-att-src="kanban_image('object.name', 'photo', record.id.value)" class="oe_resource_picture"/></a>
+                          </div>
+                          <div class="oe_resource_details">
+                              <ul>
+        Here you have to write the object's field name which you want to display in kanban view
+                                 <li><field name="name"/></li>
+                               </ul>
+                          </div>
+                      </div>
+                  </t>
+              </templates>
+          </kanban>
+      </field>
+    </record> -->
+
+    <record model="ir.ui.view" id="amad_kanban_view_perspective">
+      <field name="name">perspective Kabana</field>
+      <field name="model">shipping.products</field>
+      <field name="priority">1</field>
+      <field name="arch" type="xml">
+          <kanban class="o_res_partner_kanban">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click o_res_partner_kanban">
+                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
+                                <div class="o_kanban_image">
+                                    <!-- <t t-if="record.image.raw_value">
+                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)"/>
+                                    </t> -->
+                                    <!-- <t t-if="!record.image.raw_value">
+                                        <t t-if="record.type.raw_value === 'delivery'">
+                                            <img t-att-src="_s + &quot;/base/static/src/img/truck.png&quot;" class="o_kanban_image oe_kanban_avatar_smallbox"/>
+                                        </t>
+                                        <t t-if="record.type.raw_value === 'invoice'">
+                                            <img t-att-src="_s + &quot;/base/static/src/img/money.png&quot;" class="o_kanban_image oe_kanban_avatar_smallbox"/>
+                                         </t>
+                                        <t t-if="record.type.raw_value != 'invoice' &amp;&amp; record.type.raw_value != 'delivery'">
+                                            <t t-if="record.is_company.raw_value === true">
+                                                <img t-att-src="_s + &quot;/base/static/src/img/company_image.png&quot;"/>
+                                            </t>
+                                            <t t-if="record.is_company.raw_value === false">
+                                                <img t-att-src="_s + &quot;/base/static/src/img/avatar.png&quot;"/>
+                                            </t>
+                                        </t>
+                                    </t> -->
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong class="oe_partner_heading"><field name="display_name"/></strong>
+                                    <ul>
+                                        <li t-if="record.code.raw_value and !record.code.raw_value"><field name="code"/></li>
+                                        <li t-if="!record.name.raw_value and record.name.raw_value"><field name="name"/></li>
+                                    </ul>
+                                    <div class="oe_kanban_partner_links"/>
+                                </div>
+                            </div>
+
+                        </t>
+                    </templates>
+                </kanban>
+      </field>
+    </record>
+
+    <!-- Sidebar Menu -->
+    <menuitem name="Master Data" id="product.menu_3" parent="shipping.menu_root" sequence="1" /> <!-- sequence = urutan menu muncul, defaultnya menumpuk menu yang sudah ada, baiknya di beri nilai agar urutan menu fix -->
+    <menuitem name="Produk" id="product.index" parent="product.menu_3" action="product.action_window"/>
+  </data>
+</openerp>
