@@ -5,7 +5,7 @@
     <record model="ir.ui.view" id="shipping.list"> <!-- ini masih misteri, secara logic ini harus nya nama class namun ketika di isi prepare_product malah error -->
       <field name="name">Penyiapan Jalur Daftar</field> <!-- ini cuman penamaan saja -->
       <field name="model">shipping.prepare_products</field>
-      <field name="arch" type="xml">
+      <field name="arch" type="xml"> <!-- kayanya setiap record model memang harus ada ini -->
         <tree string="Index Penyiapan Jalur"> <!-- Key Script -->
           <field name="number"/>
           <field name="title"/>
@@ -26,7 +26,7 @@
 
     <!-- Basic & Empty Data -->
     <record model="ir.actions.act_window" id="shipping.action_window">
-      <field name="name">Penyiapan Jalur 3</field> <!-- walaupun judul nya empty data, tapi baris ini akan menjadi info pada breadcumb, cuman penamaan saja -->
+      <field name="name">Penyiapan Jalur 4</field> <!-- walaupun judul nya empty data, tapi baris ini akan menjadi info pada breadcumb, cuman penamaan saja -->
       <field name="res_model">shipping.prepare_products</field>
       <field name="view_type">form</field>
       <field name="view_mode">tree,form</field> <!-- tidak boleh di kasih spasi(harus rapat), urutan pertama akan menjadi default view -->
@@ -41,7 +41,7 @@
     <record model="ir.ui.view" id="shipping.form">
       <field name="name">Penyiapan Jalur Form</field> <!-- ini cuman penamaan saja -->
       <field name="model">shipping.prepare_products</field>
-      <field eval="10" name="priority" />
+      <field eval="10" name="priority" /> <!-- ini masih mistery tujuannya apa -->
       <field name="arch" type="xml">
         <form string="Form Penyiapan Jalur"> <!-- Key Script -->
           <sheet>
@@ -69,8 +69,8 @@
       </field>
     </record>
 
-    <!-- Top menu --> <!-- ini harus di bawah, klo g y g kebaca fungsi nya :) -->
-    <menuitem name="Penyiapan Jalur" id="shipping.menu_root"/>
+    <!-- Top menu -->
+    <menuitem name="Penyiapan Jalur" id="shipping.menu_root" /> <!-- ini harus di bawah, klo g y g kebaca fungsi nya :) -->
 
     <!-- Sidebar Menu -->
     <menuitem name="Dashboard" id="shipping.menu_1" parent="shipping.menu_root" action="shipping.action_window" sequence="0"/> <!-- sequence = urutan menu muncul, defaultnya menumpuk menu yang sudah ada, baiknya di beri nilai agar urutan menu fix, sequence 0 akan menjadi default menu yg muncul ketika klik dari top menu -->

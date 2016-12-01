@@ -3,140 +3,105 @@
 
     <!-- Index Page -->
     <record model="ir.ui.view" id="product.list">
-      <field name="name">Penyiapan Jalur Daftar</field> <!-- ini cuman penamaan saja -->
-      <field name="model">shipping.products</field>
-      <field name="arch" type="xml">
-        <tree string="Index Penyiapan Jalur"> <!-- Key Script -->
-          <field name="name" />
-          <field name="code" />
-          <field name="is_not_ppn" />
-          <field name="last_purchase_price" />
-          <field name="default_discount" />
-          <field name="last_purchase_price" />
-          <field name="point" />
-          <field name="type_product" />
-          <field name="status" />
-          <field name="description" />
-        </tree>
-      </field>
+        <field name="name">Penyiapan Jalur Daftar</field> <!-- ini cuman penamaan saja -->
+        <field name="model">shipping.products</field> <!-- ini _name dari class model -->
+        <field name="arch" type="xml">
+            <tree string="Index Penyiapan Jalur"> <!-- Key Script -->
+                <field name="name" />
+                <field name="code" />
+                <field name="is_not_ppn" />
+                <field name="last_purchase_price" />
+                <field name="default_discount" />
+                <field name="last_purchase_price" />
+                <field name="point" />
+                <field name="type_product" />
+                <field name="status" />
+                <field name="description" />
+            </tree>
+        </field>
     </record>
 
     <!-- Basic & Empty Data -->
     <record model="ir.actions.act_window" id="product.action_window">
-      <field name="name">Master Produk 18</field> <!-- walaupun judul nya empty data, tapi baris ini akan menjadi info pada breadcumb, cuman penamaan saja -->
-      <field name="res_model">shipping.products</field>
-      <field name="view_type">form</field>
-      <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field> <!-- tidak boleh di kasih spasi(harus rapat), urutan pertama akan menjadi default view -->
-      <field name="help" type='html'> <!-- Key Script -->
-        <p class='oe_view_nocontent_create'>
-          ayo mari cekson dulu....
-        </p>
-      </field>
+        <field name="name">Master Produk 51</field> <!-- walaupun judul nya empty data, tapi baris ini akan menjadi info pada breadcumb, cuman penamaan saja -->
+        <field name="res_model">shipping.products</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">kanban,tree,form,calendar,gantt,graph</field> <!-- tidak boleh di kasih spasi(harus rapat), urutan pertama akan menjadi default view -->
+        <field name="help" type='html'> <!-- Key Script -->
+            <p class='oe_view_nocontent_create'>
+                ayo mari cekson dulu....
+            </p>
+        </field>
     </record>
 
     <!-- Form & Show -->
     <record model="ir.ui.view" id="product.form">
-      <field name="name">Penyiapan Jalur Form</field> <!-- ini cuman penamaan saja -->
-      <field name="model">shipping.products</field>
-      <field eval="10" name="priority" />
-      <field name="arch" type="xml">
-        <form string="Form Penyiapan Jalur"> <!-- Key Script -->
-          <sheet>
-            <notebook>
-              <page string="Atur Penyiapan Jalur"> <!-- Info ini akan muncul pada tab bagian show detail -->
-                <group>
-                  <field name="name" />
-                    <field name="code" />
-                    <field name="is_not_ppn" />
-                    <field name="last_purchase_price" />
-                    <field name="default_discount" />
-                    <field name="last_purchase_price" />
-                    <field name="point" />
-                    <field name="type_product" />
-                    <field name="status" />
-                    <field name="description" />
-                </group>
-              </page>
-            </notebook>
-          </sheet>
-        </form>
-      </field>
+        <field name="name">Penyiapan Jalur Form</field> <!-- ini cuman penamaan saja -->
+        <field name="model">shipping.products</field> <!-- ini _name dari class model -->
+        <field eval="10" name="priority" /> <!-- ini g tau apa maksudnya, sepertinya bukan limit, karena udah di set ke 1 tapi tetap muncul semua product nya -->
+        <field name="arch" type="xml">
+            <form string="Form Penyiapan Jalur"> <!-- Key Script -->
+                <header> <!-- didalam tag header akan keluar di bagian atas form, di bawah button save -->
+                    <button string="Set to concept" type="object" name="concept_progressbar" attrs="{'invisible': [('state', '=', 'concept')]}"/> <!-- type object di hilangkan masih aman tidak tau untuk apa, attrs invisible seperti kondisi hide show button tersebut -->
+                    <button string="Set to started" type="object" name="started_progressbar" class="oe_highlight" attrs="{'invisible': [('state','!=','concept')]}"/> <!-- class="oe_highlight" button jadi biru -->
+                    <button string="In progress" type="object" name="progress_progressbar" attrs="{'invisible': ['|', ('state', '=', 'progress'), ('state', '=', 'finished')]}"/> <!-- untuk 2 kondisi atau lebih, gunakan '|' untuk OR, '&' untuk AND -->
+                    <button string="Done" type="object" name="done_progressbar" attrs="{'invisible': [('state','=','finished')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="concept,started,progress,finished" statusbar_colors='{"concept":"red", "started":"blue", "progress":"red", "finished":"blue"}' /> <!-- widget statusbar untuk memunculkan progress, warna gagal -->
+                </header>
+                <sheet>
+                    <notebook>
+                        <page string="Atur Penyiapan Jalur"> <!-- Info ini akan muncul pada tab bagian atas show detail -->
+                            <group>
+                                <field name="name" />
+                                <field name="image" widget="image"/> <!-- widget image agar gambar di munculkan -->
+                                <field name="code" />
+                                <field name="is_not_ppn" />
+                                <field name="last_purchase_price" />
+                                <field name="default_discount" />
+                                <field name="point" />
+                                <field name="type_product" widget="radio" /> <!-- widget radio agar selection berubah dari coombo box menjadi radio -->
+                                <field name="status" />
+                                <field name="description" />
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
     </record>
 
     <!-- Kanban View -->
-    <!-- <record model="ir.ui.view" id="resource_kanban_view">
-      <field name="name">any name of ur  model</field>
-      <field name="model">shipping.products</field>
-      <field name="type">kanban</field>
-      <field name="arch" type="xml">
-          <kanban>
-              <templates>
-                  <t t-name="kanban-box">
-                      <div class="oe_resource_vignette">
-                          <div class="oe_resource_image">
-                              <a type="edit"><img t-att-src="kanban_image('object.name', 'photo', record.id.value)" class="oe_resource_picture"/></a>
-                          </div>
-                          <div class="oe_resource_details">
-                              <ul>
-        Here you have to write the object's field name which you want to display in kanban view
-                                 <li><field name="name"/></li>
-                               </ul>
-                          </div>
-                      </div>
-                  </t>
-              </templates>
-          </kanban>
-      </field>
-    </record> -->
-
     <record model="ir.ui.view" id="amad_kanban_view_perspective">
-      <field name="name">perspective Kabana</field>
-      <field name="model">shipping.products</field>
-      <field name="priority">1</field>
-      <field name="arch" type="xml">
-          <kanban class="o_res_partner_kanban">
-                    <field name="code"/>
-                    <field name="name"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click o_res_partner_kanban">
-                                <div class="o_kanban_tags_section oe_kanban_partner_categories"/>
-                                <div class="o_kanban_image">
-                                    <!-- <t t-if="record.image.raw_value">
-                                        <img t-att-src="kanban_image('res.partner', 'image_small', record.id.value)"/>
-                                    </t> -->
-                                    <!-- <t t-if="!record.image.raw_value">
-                                        <t t-if="record.type.raw_value === 'delivery'">
-                                            <img t-att-src="_s + &quot;/base/static/src/img/truck.png&quot;" class="o_kanban_image oe_kanban_avatar_smallbox"/>
-                                        </t>
-                                        <t t-if="record.type.raw_value === 'invoice'">
-                                            <img t-att-src="_s + &quot;/base/static/src/img/money.png&quot;" class="o_kanban_image oe_kanban_avatar_smallbox"/>
-                                         </t>
-                                        <t t-if="record.type.raw_value != 'invoice' &amp;&amp; record.type.raw_value != 'delivery'">
-                                            <t t-if="record.is_company.raw_value === true">
-                                                <img t-att-src="_s + &quot;/base/static/src/img/company_image.png&quot;"/>
-                                            </t>
-                                            <t t-if="record.is_company.raw_value === false">
-                                                <img t-att-src="_s + &quot;/base/static/src/img/avatar.png&quot;"/>
-                                            </t>
-                                        </t>
-                                    </t> -->
-                                </div>
-                                <div class="oe_kanban_details">
-                                    <strong class="oe_partner_heading"><field name="display_name"/></strong>
-                                    <ul>
-                                        <li t-if="record.code.raw_value and !record.code.raw_value"><field name="code"/></li>
-                                        <li t-if="!record.name.raw_value and record.name.raw_value"><field name="name"/></li>
-                                    </ul>
-                                    <div class="oe_kanban_partner_links"/>
-                                </div>
+        <field name="name">Penyiapan Jalur Kanban</field> <!-- ini cuman penamaan saja -->
+        <field name="model">shipping.products</field> <!-- ini _name dari class model -->
+        <field name="priority">10</field> <!-- ini g tau apa maksudnya, sepertinya bukan limit, karena udah di set ke 1 tapi tetap muncul semua product nya -->
+        <field name="arch" type="xml">
+            <kanban class="o_shipping_products_kanban"> <!-- Key Script, seperti nya penamaan class nya bebas-->
+                <field name="code" /> <!-- di tutorial ini seharusnya jadi field default untuk filter tapi g tau kenapa g jalan, mungkin cara pake nya bukan gini -->
+                <templates>
+                    <t t-name="kanban-box"> <!-- untuk kanban ini juga harus ada, error kalau tidak ada -->
+                        <div class="oe_kanban_global_click"> <!-- agar view kanban kecil dan rapih -->
+                            <div class="o_kanban_tags_section"/> <!-- tidak ini masih aman, belum tau fungsi nya buat apa -->
+                            <div class="o_kanban_image"> <!-- image akan full size kalau ini tidak ada, sejauh ini cara resize image nya baru tau cuman dari edit css nya -->
+                                <img t-att-src="kanban_image('shipping.products', 'image', record.id.value)" class="oe_kanban_avatar"/> <!-- class="oe_kanban_avatar" biar sudut image round -->
                             </div>
-
-                        </t>
-                    </templates>
-                </kanban>
-      </field>
+                            <div class="oe_kanban_details"> <!-- set margin text info agar rapih -->
+                                <strong><field name="name"/></strong>
+                                <ul>
+                                    <li t-if="record.code.raw_value"><field name="type_product"/></li>
+                                    <li t-if="record.name.raw_value"><field name="code"/></li>
+                                    <li t-if="record.name.raw_value"><field name="description"/></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
     </record>
+
+    <!-- Top menu -->
+    <menuitem name="Penyiapan Jalur" id="shipping.menu_root"/> <!-- ini tetap harus di bawah, suka aneh karena sebenernya menu ini udah ada di penyiapan jalur, tapi malah error karena menu tidak ada, makannya di tambahin, tapi jadi ada resiko menu double, hm.... -->
 
     <!-- Sidebar Menu -->
     <menuitem name="Master Data" id="product.menu_3" parent="shipping.menu_root" sequence="1" /> <!-- sequence = urutan menu muncul, defaultnya menumpuk menu yang sudah ada, baiknya di beri nilai agar urutan menu fix -->
